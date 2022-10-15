@@ -2,11 +2,12 @@ import React from 'react'
 import styled from 'styled-components';
 import LeftPane from './LeftPane';
 import RightPane from './RightPane';
+import Modal from '../../components/Modal';
  
 const HomeScreenContainer = styled.div`
-display: grid;
-grid-template-columns: 1fr 1.5fr;
-height: 100vh;
+     position:relative;
+     width :100%;
+     height: 100vh;
 `;
 const Homescreen= () =>{
 
@@ -15,6 +16,7 @@ const Homescreen= () =>{
         <HomeScreenContainer>
        <LeftPane/>
        <RightPane/>
+       <Modal/>
        </HomeScreenContainer>
     </div>
   );

@@ -1,10 +1,17 @@
 import React from 'react'
 import styled from 'styled-components';
 const StyledLeftPane = styled.div`
+    position: fixed;
+    width: 40%;
+    top: 0;
+    left: 0;
+    height: 100vh;
+
      background : #221f20;
      display : flex;
      align-items : center;
      justify-content : center;
+    
 `
 const Contentcontainer = styled.div`
      text-align : center;
