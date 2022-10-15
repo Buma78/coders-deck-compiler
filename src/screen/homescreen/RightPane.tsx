@@ -1,7 +1,8 @@
-import React from 'react'
+import {useContext} from 'react'
 import styled from 'styled-components';
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
+import { ModalContext } from '../../Context/ModalContext';
 
 interface HeaderProps {
     readonly variant: string;
@@ -100,6 +101,8 @@ const Icons = styled.div`
   font-size: 1.25rem;
 `;
 const RightPane = () => {
+  const ModalFeatures = useContext(ModalContext);
+  const setIsOpen = ModalFeatures?.setIsOpen;
   return (
     <div>
         <StyledRightpane>
@@ -128,7 +131,7 @@ const RightPane = () => {
                  </CardContent>
                <Icons>
                  <IoTrashOutline />
-                 <BiEditAlt />
+                 <BiEditAlt onClick={()=>{if(setIsOpen) setIsOpen(true)}}/>
                </Icons>
                 </Playgroundcard>
                 <Playgroundcard>
@@ -240,7 +243,7 @@ const RightPane = () => {
                </Icons>
                 </Playgroundcard>
             </Cardcontainer>
-        </Folder>
+        </Folder>   
         </StyledRightpane>
     </div>
   );

@@ -1,12 +1,13 @@
 import React from 'react';
 import Global from './styles/Global';
 import Homescreen from './screen/homescreen';
+import ModalProvider from './Context/ModalContext';
 function App() {
   return (
-   <div>
+   <ModalProvider>
     <Global/>
     <Homescreen/>
-   </div>
+   </ModalProvider>
   );
 }
 
