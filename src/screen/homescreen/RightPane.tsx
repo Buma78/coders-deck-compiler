@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
 import { ModalContext } from '../../Context/ModalContext';
+import { PlaygroundContext } from '../../Context/PlaygroundContext';
 
 interface HeaderProps {
     readonly variant: string;
@@ -100,46 +101,18 @@ const Icons = styled.div`
   gap: 0.5rem;
   font-size: 1.25rem;
 `;
+
+const FolderButton=styled.div`
+       display :flex;
+       align-items: center;
+`
 const RightPane = () => {
   const makeavailableGlobally = useContext(ModalContext)!;
-  const setIsOpen = makeavailableGlobally.setIsOpen;
+  const {openModal} = makeavailableGlobally;
 
-  const folders = {
-   ["1"]:{
-    title:"folder title 1",
-    items:{
-      ["item1"]:{
-        title:"stack implementation",
-        language: "c++",
-      },
-      ["item2"]:{
-        title:"Queue implementation",
-        language: "c++"
-      },
-      ["item3"]:{
-        title:"LinkedList implementation",
-        language: "c++"
-      },
-    },
-   },
-   ["2"]:{
-    title:"folder title 2",
-    items:{
-      ["item1"]:{
-        title:"stack implementation 1",
-        language: "c++",
-      },
-      ["item2"]:{
-        title:"stack implementation 2",
-        language: "c++"
-      },
-      ["item3"]:{
-        title:"stack implementation 3",
-        language: "c++"
-      },
-    },
-   },
-  }
+  const PlaygroundFeatures = useContext(PlaygroundContext)!;
+  const Folders = PlaygroundFeatures.folders;
+  const {deleteCard,deleteFolder} = PlaygroundFeatures;
   return (
     <div>
         <StyledRightpane>
@@ -147,21 +120,59 @@ const RightPane = () => {
         <Heading size='large'>
              my <span>Playground</span>
         </Heading>
-        <Addbutton>
+        <Addbutton onClick={()=>{
+          openModal({
+            value:true,
+            type:"4",
+            identifier:{
+               folderId: "",
+               cardId: ""
+            }
+          })
+        }
+
+        }>
             <span>+</span>New Folder
         </Addbutton>
         </Header>  
         
-         {Object.entries(folders).map(([folderId,folder]) => (
+         {Object.entries(Folders).map(([folderId,folder]:[folderId:string,folder:any]) => (
            <Folder>
            <Header variant='folder'>
                <Heading size='small'>{folder.title}</Heading>
-               <Addbutton>
+               <FolderButton>
+               <Icons>
+                 <IoTrashOutline onClick={()=>{
+                  deleteFolder(folderId);
+                 }}/>
+                 <BiEditAlt onClick={()=>{
+          openModal({
+            value:true,
+            type:"2",
+            identifier:{
+               folderId: folderId,
+               cardId: ""
+            }
+          })
+        }}/>
+               </Icons>
+               <Addbutton onClick={()=>{
+          openModal({
+            value:true,
+            type:"3",
+            identifier:{
+               folderId: folderId,
+               cardId: ""
+            }
+          })
+        }}>
                    <span>+</span>New Playground
                </Addbutton>
+               </FolderButton>
+               
            </Header>
            <Cardcontainer>
-            {Object.entries(folder.items).map(([cardId,card]) =>(
+            {Object.entries(folder.items).map(([cardId,card]:[cardId:string,card:any]) =>(
                 <Playgroundcard>
                 <SmallLogo src='/logo-small.png' alt='' />
                   <CardContent>
@@ -169,8 +180,10 @@ const RightPane = () => {
                       <p>{card.language}</p>
                  </CardContent>
                <Icons>
-                 <IoTrashOutline />
-                 <BiEditAlt onClick={()=>{setIsOpen({
+                 <IoTrashOutline onClick={()=>{
+                  deleteCard(folderId,cardId);
+                 }}/>
+                 <BiEditAlt onClick={()=>{openModal({
                    value:true,
                    type:"1",
                    identifier:{

@@ -11,7 +11,8 @@ interface Popfields{
 }
 interface ModalContextType{
     isOpen:Popfields;
-    setIsOpen: (isOpen:Popfields)=> void;
+    openModal :(value:Popfields)=>void;
+    closeModal :()=> void;
 }
 
 export const ModalContext = createContext<ModalContextType | null>(null);
@@ -27,9 +28,17 @@ export default function ModalProvider({children}:{children:any}){
     }
     const[isOpen,setIsOpen] = useState<Popfields>({...intialPopupfields});
     
+    const openModal = (value:Popfields)=>{
+        setIsOpen(value);
+    }
+
+    const cloaseModal =()=>{
+        setIsOpen({...intialPopupfields});
+    }
     const makeavailableGlobally :ModalContextType={
         isOpen:isOpen,
-        setIsOpen: setIsOpen
+        openModal:openModal,
+        closeModal:cloaseModal
     }
     return (< ModalContext.Provider value={makeavailableGlobally}>
         {children}
