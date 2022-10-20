@@ -4,6 +4,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
 import { ModalContext } from '../../Context/ModalContext';
 import { PlaygroundContext } from '../../Context/PlaygroundContext';
+import {useNavigate} from 'react-router-dom';
 
 interface HeaderProps {
     readonly variant: string;
@@ -82,6 +83,11 @@ const Playgroundcard = styled.div`
   padding: 0.6rem;
   gap: 1rem;
   box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.35);
+  cursor : pointer;
+  transition:all 0.1s ease;
+  &:hover{
+    opacity:0.75;
+  }
 `;
 const SmallLogo = styled.img`
   width: 75px;
@@ -107,6 +113,8 @@ const FolderButton=styled.div`
        align-items: center;
 `
 const RightPane = () => {
+
+  const navigate = useNavigate();
   const makeavailableGlobally = useContext(ModalContext)!;
   const {openModal} = makeavailableGlobally;
 
@@ -173,7 +181,10 @@ const RightPane = () => {
            </Header>
            <Cardcontainer>
             {Object.entries(folder.items).map(([cardId,card]:[cardId:string,card:any]) =>(
-                <Playgroundcard>
+                <Playgroundcard 
+                onClick={()=>{
+                  navigate(`/code/${folderId}/${cardId}`);
+                }}>
                 <SmallLogo src='/logo-small.png' alt='' />
                   <CardContent>
                       <h5>{card.title}</h5>

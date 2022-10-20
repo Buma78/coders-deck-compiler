@@ -63,9 +63,10 @@ const initialItems = {
  };
 export default function PlaygroundProvider({children}:{children:any}){
    const[folders,setfolders] = useState(()=>{
-    const localData = JSON.parse(
+    let localData = JSON.parse(
       localStorage.getItem("playground-data") as string
    )
+   localData = Object.keys(localData).length===0 ? null :localData;
     return localData || initialItems;
    });
    useEffect(() =>{
