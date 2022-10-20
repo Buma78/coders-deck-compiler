@@ -15,16 +15,31 @@ import {python} from "@codemirror/lang-python";
 //configuration
 import {indentUnit} from "@codemirror/language";
 import {EditorState} from "@codemirror/state";
+import styled from 'styled-components';
+
+const CodeEditorContainer = styled.div`
+   border : 0;
+   outline : 0;
+   height: calc(100vh - 12.5rem);
+
+   &>div{
+    height:100%;
+   }
+`
 const CodeEditor = () => {
     const[theme,setTheme] = useState<any>(githubDark);
     const[lang,setLang] = useState<any>(python);
   return (
-    <div><CodeMirror theme={theme} extensions={[
+    <CodeEditorContainer>
+        <CodeMirror
+     theme={theme}
+     height = '100%'
+     extensions={[
         lang,
         indentUnit.of("    "),
         EditorState.tabSize.of(8),
         EditorState.changeFilter.of(()=>true),
-    ]}/></div>
+    ]}/></CodeEditorContainer>
   )
 }
 

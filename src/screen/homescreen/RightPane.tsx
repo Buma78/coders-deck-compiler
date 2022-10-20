@@ -145,7 +145,7 @@ const RightPane = () => {
         </Header>  
         
          {Object.entries(Folders).map(([folderId,folder]:[folderId:string,folder:any]) => (
-           <Folder>
+           <Folder key={folderId}>
            <Header variant='folder'>
                <Heading size='small'>{folder.title}</Heading>
                <FolderButton>
@@ -181,7 +181,7 @@ const RightPane = () => {
            </Header>
            <Cardcontainer>
             {Object.entries(folder.items).map(([cardId,card]:[cardId:string,card:any]) =>(
-                <Playgroundcard 
+                <Playgroundcard key={cardId}
                 onClick={()=>{
                   navigate(`/code/${folderId}/${cardId}`);
                 }}>
