@@ -4,7 +4,7 @@ import { PlaygroundContext } from '../../Context/PlaygroundContext';
 import { Closebutton,Header ,Input,ModalProps } from '../Modal';
 const NewFolder = ({closeModal,identifier }: ModalProps) => {
 
-  const {folders,createNewFolder} = useContext(PlaygroundContext)!;
+  const {createNewFolder} = useContext(PlaygroundContext)!;
 
   const[title,setTitle] = useState("")
   return (

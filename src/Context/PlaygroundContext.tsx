@@ -1,6 +1,4 @@
-import { type } from '@testing-library/user-event/dist/type';
 import {createContext,useState,useEffect}from 'react';
-import { BiFolder } from 'react-icons/bi';
 import {v4 as uuid} from"uuid";
 interface PlaygroundContextType{
      folders: any;

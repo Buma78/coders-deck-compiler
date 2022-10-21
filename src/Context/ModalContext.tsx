@@ -1,4 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type';
 import {createContext,useState}from 'react';
 
 interface Popfields{
