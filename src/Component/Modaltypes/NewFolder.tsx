@@ -1,14 +1,31 @@
-import React from 'react'
-import { MdClose } from 'react-icons/md';
-import { Closebutton, ModalProps } from '../Modal';
+import React ,{useState,useContext}from 'react';
+import {RiCloseFill} from 'react-icons/ri';
+import { PlaygroundContext } from '../../Context/PlaygroundContext';
+import { Closebutton,Header ,Input,ModalProps } from '../Modal';
 const NewFolder = ({closeModal,identifier }: ModalProps) => {
+
+  const {folders,createNewFolder} = useContext(PlaygroundContext)!;
+
+  const[title,setTitle] = useState("")
   return (
-    <div>NewFolder
-        <Closebutton onClick={()=>{
-      closeModal();
-    }}>
-       < MdClose/>
+    <div>
+      <Header>
+        <h3>Create New Folder</h3>
+        <Closebutton onClick ={()=>{
+          closeModal();
+        }} >
+          <RiCloseFill/>
         </Closebutton>
+      </Header>
+      <Input>
+        <input type='text' value={title} onChange={(e)=>{
+          setTitle(e.target.value);
+        }}/>
+        <button onClick={()=>{
+          createNewFolder(title);
+          closeModal();
+        }}>Update Title</button>
+      </Input>
     </div>
   )
 }

@@ -8,7 +8,7 @@ const Console = styled.div`
       position : relative ;
 `;
 const Header = styled.div`
-   height: 3rem;
+   height: 3.5rem;
    background : #ededed;
    box-shadow : 0px 4px 4px rgba(0,0,0,0.16);
    z-index: 2;
@@ -19,10 +19,12 @@ const Header = styled.div`
    font-weight:700;
    padding : 1rem;
 
-   span{
+   button{
        display : flex;
        align-items : center;
       font-weight:400;
+      border : 0;
+      outline : 0;
 
     svg{
         font-size: 1.5rem;
@@ -35,15 +37,16 @@ const TextArea = styled.textarea`
     resize : none;
     border : 0;
     outline :0;
+    padding : 0.25rem;
 `;
 const InputConsole = () => {
   return (
     <Console>
         <Header>Input Console :{" "}
-            <span>
+            <button>
                 <BiImport/>
                 Import Input
-            </span>
+            </button>
         </Header>
         <TextArea></TextArea>
     </Console>

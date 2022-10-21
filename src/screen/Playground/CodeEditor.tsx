@@ -18,9 +18,7 @@ import {EditorState} from "@codemirror/state";
 import styled from 'styled-components';
 
 const CodeEditorContainer = styled.div`
-   border : 0;
-   outline : 0;
-   height: calc(100vh - 12.5rem);
+   height: calc(100vh - 11rem);
 
    &>div{
     height:100%;

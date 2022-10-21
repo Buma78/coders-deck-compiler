@@ -64,7 +64,6 @@ const Addbutton = styled.button`
   transition:all 0.25s ease;
   &:hover{
     opacity:0.75;
-    scale:1.1;
   }
 `
 const Folder=styled.div`
@@ -106,11 +105,13 @@ const Icons = styled.div`
   display: flex;
   gap: 0.5rem;
   font-size: 1.25rem;
+  margin-right : 0.5rem;
 `;
 
 const FolderButton=styled.div`
        display :flex;
        align-items: center;
+
 `
 const RightPane = () => {
 
@@ -126,7 +127,7 @@ const RightPane = () => {
         <StyledRightpane>
         <Header variant='main'>
         <Heading size='large'>
-             my <span>Playground</span>
+             my <span>Playgrounds</span>
         </Heading>
         <Addbutton onClick={()=>{
           openModal({
@@ -190,7 +191,9 @@ const RightPane = () => {
                       <h5>{card.title}</h5>
                       <p>{card.language}</p>
                  </CardContent>
-               <Icons>
+               <Icons  onClick={(e) => {
+                        e.stopPropagation();
+                      }}>
                  <IoTrashOutline onClick={()=>{
                   deleteCard(folderId,cardId);
                  }}/>

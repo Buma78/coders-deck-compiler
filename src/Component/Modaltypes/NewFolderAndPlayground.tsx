@@ -1,18 +1,18 @@
 import React ,{useState,useContext}from 'react';
 import {RiCloseFill} from 'react-icons/ri';
 import { PlaygroundContext } from '../../Context/PlaygroundContext';
-import { Closebutton,Header ,Input,ModalProps } from '../Modal';
+import { Closebutton,Header,InputWithSelect,ModalProps } from '../Modal';
 import Select from 'react-select';
-const NewCard = ({closeModal,identifier }: ModalProps) => {
-   const {folderId } = identifier;
+const NewFolderAndPlayground = ({closeModal,identifier }: ModalProps) => {
    const languageOptions =[
     {value: "c++" ,label:"c++"},
     {value: "java" ,label:"java"},
     {value: "javascript" ,label:"javasript"},
     {value: "python" ,label:"python"},
   ]
-  const {createNewPlayground} = useContext(PlaygroundContext)!;
-  const[title,setTitle] = useState("")
+  const {createNewFolderAndPlayground} = useContext(PlaygroundContext)!;
+  const[folderTitle,setFolderTitle] = useState("");
+  const[cardTitle,setCardTitle] = useState("")
 
   const[language,setLanguage] = useState(languageOptions[0])
   const handleLanguage = (selectedOption:any)=>{
@@ -21,25 +21,30 @@ const NewCard = ({closeModal,identifier }: ModalProps) => {
   return (
     <div>
       <Header>
-        <h3>Create New Folder</h3>
+        <h3>New Folder And Playground</h3>
         <Closebutton onClick ={()=>{
           closeModal();
         }} >
           <RiCloseFill/>
         </Closebutton>
       </Header>
-      <Input>
-        <input type='text' value={title} onChange={(e)=>{
-          setTitle(e.target.value);
+      <InputWithSelect>
+         <label>Folder Title</label>
+        <input type='text' value={folderTitle} onChange={(e)=>{
+          setFolderTitle(e.target.value);
+        }}/>
+        <label>card Title</label>
+        <input type='text' value={cardTitle} onChange={(e)=>{
+          setCardTitle(e.target.value);
         }}/>
         <Select options={languageOptions} value={language} onChange={handleLanguage}/>
         <button onClick={()=>{
-          createNewPlayground(folderId,title,language.value);
+          createNewFolderAndPlayground(folderTitle ,cardTitle,language.value);
           closeModal();
         }}>Update Title</button>
-      </Input>
+      </InputWithSelect>
     </div>
   )
 }
 
-export default NewCard;
+export default NewFolderAndPlayground;

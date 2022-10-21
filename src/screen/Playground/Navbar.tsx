@@ -1,14 +1,19 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 const NavbarContainer = styled.div`
-height: 4.5 rem;
+height: 5 rem;
 background : #241f21;
 display:flex;
 align-items:center;
 justify-content:center;
 `
-const Navbarcontent =styled.div`
+const Navbarcontent =styled.button`
+    background : transparent;
+    border : 0;
+    outline :0;
     display: flex;
     align-items :center;
     gap: 0.9 rem;
@@ -26,9 +31,12 @@ const MainHeading = styled.h1`
     }
 `;
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <NavbarContainer>
-        <Navbarcontent>
+        <Navbarcontent onClick={()=>{
+             navigate('/');
+        }}>
              <Logo src='/logo.png'/>
              <MainHeading>
                <span>code</span>Deck

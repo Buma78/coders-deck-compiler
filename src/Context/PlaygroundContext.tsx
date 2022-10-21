@@ -6,6 +6,7 @@ interface PlaygroundContextType{
      folders: any;
      setfolders: any;
      createNewFolder :(folderTitle:string)=>void;
+     createNewPlayground: (folderId: string,cardTitle: string,cardLanguage: string ) => void;
      createNewFolderAndPlayground :(folderTitle:string,cardTitle:string,cardLanguage:string)=>void;
      editCardTitle : (folderID:string,cardId:string, newCardTitle:string)=>void;
      editFolderTitle : (folderID:string,newFolderTitle:string)=>void;
@@ -82,7 +83,21 @@ export default function PlaygroundProvider({children}:{children:any}){
         return newState;
        })
    }
-    
+   const createNewPlayground = (
+    folderId: string,
+    cardTitle: string,
+    cardLanguage: string
+  ) => {
+    setfolders((oldState: any) => {
+      const newState = { ...oldState };
+      // create a new playground
+      newState[folderId].items[uuid()] = {
+        title: cardTitle,
+        language: cardLanguage,
+      };
+      return newState;
+    });
+  };
    const createNewFolderAndPlayground =(folderTitle:string,cardTitle:string,cardLanguage:string)=>{
     setfolders((oldState:any)=>{
      const newState = {...oldState};
@@ -132,6 +147,7 @@ export default function PlaygroundProvider({children}:{children:any}){
         folders :folders,
         setfolders: setfolders,
         createNewFolder :createNewFolder,
+        createNewPlayground: createNewPlayground,
         createNewFolderAndPlayground : createNewFolderAndPlayground,
         editCardTitle :  editCardTitle,
         editFolderTitle :  editFolderTitle,
