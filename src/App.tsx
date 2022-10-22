@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Homescreen/>}/>
-      <Route path="/code/:folderId/:platgroundId" element={<Playground/>}/>
+      <Route path="/code/:folderId/:playgroundId" element={<Playground/>}/>
       <Route path="*" element={<Page404/>}/>
     </Routes>
     </BrowserRouter>

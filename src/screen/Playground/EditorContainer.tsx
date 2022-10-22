@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CodeEditor from './CodeEditor'
 import styled from 'styled-components'
 import { BiEditAlt, BiExport, BiFullscreen, BiImport } from 'react-icons/bi'
 import Select from 'react-select';
+import { ModalContext } from '../../Context/ModalContext';
 const StyledEditorContainer = styled.div`
 display: flex;
 flex-direction : column;
@@ -45,6 +46,14 @@ const Lowerbuttons= styled.div`
     gap :  2.5rem;
 
 `
+const Savebutton = styled.button`
+     padding : 0.5rem 1rem;
+     background : #0097d7 !important;
+     border-radius : 2rem;
+     font-weight : 700;
+     border :0;
+     outline :0;
+`
 const Runbutton = styled.button`
      padding : 0.8rem 2rem;
      background : #0097d7 !important;
@@ -78,10 +87,16 @@ const  Selectbars = styled.div`
         width : 12rem;
       }
 `
-const EditorContainer = () => {
-    const [languageSelected,setLanguageSelected] = useState(null);
-    const [themeSelected,setThemeSelected] = useState(null);
-    
+interface EditorContainerProps{
+    title :string,
+    language : string;
+    code :string;
+    folderId:string;
+    cardId:string;
+}
+const EditorContainer: React.FC<EditorContainerProps>=({title,language,code,folderId,cardId})=> {
+
+    const {openModal}= useContext(ModalContext)!;
     const languageOptions =[
         {value: "c++" ,label:"c++"},
         {value: "java" ,label:"java"},
@@ -100,6 +115,16 @@ const EditorContainer = () => {
         {value:"duotoneLight",label:"duotoneLight"},
         {value:"duotoneDark",label:"duotoneDark"},
     ]
+    const [languageSelected,setLanguageSelected] = useState(()=>{
+      for(let i=0;i<languageOptions.length;i++){
+        if(languageOptions[i].value===language)return languageOptions[i];
+      }
+      return languageOptions[0];
+    }
+    );
+    const [themeSelected,setThemeSelected] = useState({value:"githubDark",label:"githubDark"});
+    
+    
 
     const handleSelectedLanguage = (selectedOption:any)=>{
         setLanguageSelected(selectedOption);
@@ -111,15 +136,25 @@ const EditorContainer = () => {
     <StyledEditorContainer>
         <UpperToolBar>
             <UppertoolTitle>
-                <h3>Stack implementation</h3>
-                <button><BiEditAlt/></button>
+                <h3>{title}</h3>
+                <button onClick={()=>{
+                    openModal({
+                        value:true,
+                        type: "1",
+                        identifier:{
+                            folderId:folderId,
+                            cardId: cardId,
+                        }
+                    })
+                }}><BiEditAlt/></button>
             </UppertoolTitle>
             <Selectbars>
+                <Savebutton>save Code</Savebutton>
                 <Select value={languageSelected}  options={languageOptions} onChange={handleSelectedLanguage}/>
                 <Select value={themeSelected}  options={themeOptions} onChange={handleSelectedTheme}/>
             </Selectbars>
         </UpperToolBar>
-        <CodeEditor/>
+        <CodeEditor CurrentLanguage={languageSelected.value} CurrentTheme={themeSelected.value} CurrentCode={code}/>
         <LowerToolBar>
             <Lowerbuttons>
                 <button><BiFullscreen/>Full Screen</button>

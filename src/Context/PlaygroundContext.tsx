@@ -24,6 +24,30 @@ export interface foldertype {
       };
   };
 }
+export const languageMap : {
+  [key:string]:{
+    defaultCode:string,
+  }
+}={
+  "c++": {
+    defaultCode:
+      "# include <iostream>\n" +
+      "\n" +
+      "int main() {\n" +
+      "    // your code here\n" +
+      "    return 0;\n" +
+      "}"
+      },
+  "python": {
+    defaultCode: "# your python code here",
+  },
+ "javascript": {
+    defaultCode: "// your javascript code here",
+  },
+  "java": {
+    defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
+  },
+};
 const initialItems = {
   [uuid()]:{
    title:"folder title 1",
@@ -31,31 +55,7 @@ const initialItems = {
      [uuid()]:{
        title:"stack implementation",
        language: "c++",
-     },
-     [uuid()]:{
-       title:"Queue implementation",
-       language: "c++"
-     },
-     [uuid()]:{
-       title:"LinkedList implementation",
-       language: "c++"
-     },
-   },
-  },
-  [uuid()]:{
-   title:"folder title 2",
-   items:{
-     [uuid()]:{
-       title:"1 implementation",
-       language: "c++",
-     },
-     [uuid()]:{
-       title:"2 implementation",
-       language: "c++"
-     },
-     [uuid()]:{
-       title:"3 implementation",
-       language: "c++"
+       code : languageMap["c++"].defaultCode,
      },
    },
   },
@@ -92,6 +92,7 @@ export default function PlaygroundProvider({children}:{children:any}){
       newState[folderId].items[uuid()] = {
         title: cardTitle,
         language: cardLanguage,
+        code: languageMap[cardLanguage].defaultCode,
       };
       return newState;
     });
@@ -104,6 +105,7 @@ export default function PlaygroundProvider({children}:{children:any}){
        items:{[uuid()]:{
         title:cardTitle,
         language: cardLanguage,
+        code: languageMap[cardLanguage].defaultCode,
       }},
      };
      return newState;

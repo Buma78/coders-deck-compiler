@@ -34,7 +34,7 @@ export default function ModalProvider({children}:{children:any}){
     const cloaseModal =()=>{
         setIsOpen({...intialPopupfields});
     }
-    const makeavailableGlobally :ModalContextType={
+    const makeavailableGlobally : ModalContextType={
         isOpen:isOpen,
         openModal:openModal,
         closeModal:cloaseModal
