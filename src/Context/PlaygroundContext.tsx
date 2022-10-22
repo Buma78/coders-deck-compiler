@@ -65,7 +65,7 @@ export default function PlaygroundProvider({children}:{children:any}){
     let localData = JSON.parse(
       localStorage.getItem("playground-data") as string
    )
-   localData = Object.keys(localData).length===0 ? null :localData;
+   localData = localData === undefined || localData === null ||Object.keys(localData).length === 0 ? null : localData;
     return localData || initialItems;
    });
    useEffect(() =>{
