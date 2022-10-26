@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { BiEditAlt, BiExport, BiFullscreen, BiImport } from 'react-icons/bi'
 import Select from 'react-select';
 import { ModalContext } from '../../Context/ModalContext';
+import { languageMap } from '../../Context/PlaygroundContext';
 const StyledEditorContainer = styled.div`
 display: flex;
 flex-direction : column;
@@ -24,13 +25,14 @@ const LowerToolBar = styled.div`
      align-items : center;
      padding : 0.2rem;
 
-     button{
+        button,label{
         background : transparent;
         margin-right: 0.3rem;
         font-size: 1.3rem;
         border :0;
         outline :0;
-
+        cursor: pointer;
+        
         display : flex ;
         align-items : center;
         gap : 0.75rem;
@@ -89,12 +91,16 @@ const  Selectbars = styled.div`
 `
 interface EditorContainerProps{
     title :string,
-    language : string;
-    code :string;
+    currentLanguage : string;
+    currentCode :string;
+    setCurrentLanguage:(newLang:string)=>void;
+    setCurrentCode:(newCode:string)=>void;
     folderId:string;
     cardId:string;
+    saveCode:()=>void;
+    runCode:()=>void;
 }
-const EditorContainer: React.FC<EditorContainerProps>=({title,language,code,folderId,cardId})=> {
+const EditorContainer: React.FC<EditorContainerProps>=({title,currentLanguage,currentCode,setCurrentLanguage,setCurrentCode, folderId,cardId,saveCode,runCode})=> {
 
     const {openModal}= useContext(ModalContext)!;
     const languageOptions =[
@@ -117,7 +123,7 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,language,code,fold
     ]
     const [languageSelected,setLanguageSelected] = useState(()=>{
       for(let i=0;i<languageOptions.length;i++){
-        if(languageOptions[i].value===language)return languageOptions[i];
+        if(languageOptions[i].value===currentLanguage)return languageOptions[i];
       }
       return languageOptions[0];
     }
@@ -128,10 +134,37 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,language,code,fold
 
     const handleSelectedLanguage = (selectedOption:any)=>{
         setLanguageSelected(selectedOption);
+        setCurrentLanguage(selectedOption.value);
+        setCurrentCode(languageMap[selectedOption.value].defaultCode);
     }
     const handleSelectedTheme = (selectedOption:any)=>{
         setThemeSelected(selectedOption);
-    }
+    } 
+    
+    const getFile = (e: any) => {
+        const input = e.target;
+    
+        if ("files" in input && input.files.length > 0) {
+          placeFileContent(input.files[0]);
+        }
+      };
+    
+      const placeFileContent = (file: any) => {
+        readFileContent(file)
+          .then((content) => {
+            setCurrentCode(content as string);
+          })
+          .catch((error) => console.log(error));
+      };
+    
+      function readFileContent(file: any) {
+        const reader = new FileReader();
+        return new Promise((resolve, reject) => {
+          reader.onload = (event) => resolve(event!.target!.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsText(file);
+        });
+      }
     return (
     <StyledEditorContainer>
         <UpperToolBar>
@@ -149,19 +182,26 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,language,code,fold
                 }}><BiEditAlt/></button>
             </UppertoolTitle>
             <Selectbars>
-                <Savebutton>save Code</Savebutton>
+                <Savebutton onClick={()=>{
+                    saveCode();
+                }}>save Code</Savebutton>
                 <Select value={languageSelected}  options={languageOptions} onChange={handleSelectedLanguage}/>
                 <Select value={themeSelected}  options={themeOptions} onChange={handleSelectedTheme}/>
             </Selectbars>
         </UpperToolBar>
-        <CodeEditor CurrentLanguage={languageSelected.value} CurrentTheme={themeSelected.value} CurrentCode={code}/>
+        <CodeEditor CurrentLanguage={languageSelected.value} CurrentTheme={themeSelected.value} CurrentCode={currentCode} setCurrentCode={setCurrentCode}/>
         <LowerToolBar>
             <Lowerbuttons>
                 <button><BiFullscreen/>Full Screen</button>
-                <button><BiImport/>Import Code</button>
+                <label> <input type='file'accept='.txt' style={{ display: "none" }} onChange={(e) => {
+                 getFile(e);
+              }}
+            /><BiImport/>Import Code</label>
                 <button><BiExport/>Export Code</button>
             </Lowerbuttons>
-            <Runbutton>Run Code</Runbutton>
+            <Runbutton onClick={() => {
+            runCode();
+          }}>Run Code</Runbutton>
         </LowerToolBar>
     </StyledEditorContainer>
   )

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ModalContext } from '../Context/ModalContext';
 import EditCardTitle from './Modaltypes/EditCardTitle';
 import EditFolderTitle from './Modaltypes/EditFolderTitle';
+import Loading from './Modaltypes/Loading';
 import NewCard from './Modaltypes/NewCard';
 import NewFolder from './Modaltypes/NewFolder';
 import NewFolderAndPlayground from './Modaltypes/NewFolderAndPlayground';
@@ -94,6 +95,7 @@ const Modal = () => {
             {isOpen.type ==="3"&& <NewCard closeModal={closeModal} identifier={isOpen.identifier}/>}
             {isOpen.type ==="4"&& <NewFolder closeModal={closeModal} identifier={isOpen.identifier}/>}
             {isOpen.type ==="5"&& <NewFolderAndPlayground closeModal={closeModal} identifier={isOpen.identifier}/>}
+            {isOpen.type ==="6"&& <Loading/>}
             </Modalcontent>  
         </Modalcomponent>
     )

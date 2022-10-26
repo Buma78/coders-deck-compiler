@@ -10,6 +10,7 @@ interface PlaygroundContextType{
      editFolderTitle : (folderID:string,newFolderTitle:string)=>void;
      deleteCard : (folderID:string,cardId:string)=>void;
      deleteFolder : (folderID:string)=>void;
+     savePlayground: ( folderId: string,cardId: string,newCode: string,newLanguage: string) => void;
 }
 export const PlaygroundContext = createContext<PlaygroundContextType | null>(null);
 
@@ -26,10 +27,12 @@ export interface foldertype {
 }
 export const languageMap : {
   [key:string]:{
+    id : number,
     defaultCode:string,
   }
 }={
   "c++": {
+    id: 54,
     defaultCode:
       "# include <iostream>\n" +
       "\n" +
@@ -39,12 +42,15 @@ export const languageMap : {
       "}"
       },
   "python": {
+    id: 71,
     defaultCode: "# your python code here",
   },
  "javascript": {
+    id : 63,
     defaultCode: "// your javascript code here",
   },
   "java": {
+    id : 62,
     defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
   },
 };
@@ -143,6 +149,21 @@ export default function PlaygroundProvider({children}:{children:any}){
       return newState;
     })
    }
+
+   const savePlayground = (
+    folderId: string,
+    cardId: string,
+    newCode: string,
+    newLanguage: string
+  ) => {
+    setfolders((oldState: any) => {
+      const newState = { ...oldState };
+      newState[folderId].items[cardId].code = newCode;
+      newState[folderId].items[cardId].language = newLanguage;
+      return newState;
+    });
+  };
+    
    const makeavailableGlobally : PlaygroundContextType ={
         folders :folders,
         setfolders: setfolders,
@@ -153,6 +174,7 @@ export default function PlaygroundProvider({children}:{children:any}){
         editFolderTitle :  editFolderTitle,
         deleteCard : deleteCard,
         deleteFolder : deleteFolder,
+        savePlayground:savePlayground,
    }
     return (< PlaygroundContext.Provider value={makeavailableGlobally}>
         {children}

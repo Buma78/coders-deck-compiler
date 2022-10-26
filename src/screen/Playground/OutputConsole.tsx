@@ -1,5 +1,5 @@
 import React from 'react'
-import { BiExport } from 'react-icons/bi';
+//import { BiExport } from 'react-icons/bi';
 import styled from 'styled-components';
 
 const Console = styled.div`
@@ -30,21 +30,25 @@ const Header = styled.div`
         font-size: 1.5rem;
     }
 `
-const OutputArea = styled.div`
+const OutputArea = styled.textarea`
     background : #ededed;
     flex-grow : 1;
     padding : 0.25rem;
 `;
-const OutputConsole = () => {
+
+interface OutputConsoleProps{
+    currentOutput: string;
+}
+const OutputConsole :React.FC<OutputConsoleProps>= ({currentOutput}) => {
   return (
     <Console>
     <Header>Output Console :{" "}
-        <button>
+        {/* <button>
             <BiExport/>
             Export Output
-        </button>
+        </button> */}
     </Header>
-    <OutputArea></OutputArea>
+    <OutputArea value={currentOutput} disabled></OutputArea>
 </Console>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {BiImport} from "react-icons/bi";
+//import {BiImport} from "react-icons/bi";
 const Console = styled.div`
       background : white;
       display : flex;
@@ -19,12 +19,13 @@ const Header = styled.div`
    font-weight:700;
    padding : 1rem;
 
-   button{
+   button {
        display : flex;
        align-items : center;
       font-weight:400;
       border : 0;
       outline : 0;
+      pointer: cursor;
 
     svg{
         font-size: 1.5rem;
@@ -39,16 +40,21 @@ const TextArea = styled.textarea`
     outline :0;
     padding : 0.25rem;
 `;
-const InputConsole = () => {
+interface InputConsoleProps {
+    currentInput:string;
+    setCurrentInput:(newInput:string)=>void;
+}
+const InputConsole :React.FC<InputConsoleProps>= ({currentInput,setCurrentInput}) => {
+    
   return (
     <Console>
-        <Header>Input Console :{" "}
-            <button>
-                <BiImport/>
-                Import Input
-            </button>
+        <Header>
+            Input Console :
+            {/* <button><BiImport/>Import Input</button> */}
         </Header>
-        <TextArea></TextArea>
+        <TextArea value ={currentInput} onChange={(e)=>{
+            setCurrentInput(e.target.value);
+        }}></TextArea>
     </Console>
   )
 }
