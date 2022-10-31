@@ -165,6 +165,15 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,currentLanguage,cu
           reader.readAsText(file);
         });
       }
+      
+      const exportUserInfo =(userInfo:any)=> {
+        const blob = new Blob([userInfo], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = "user-info.txt";
+        link.href = url;
+        link.click();
+      }
     return (
     <StyledEditorContainer>
         <UpperToolBar>
@@ -197,7 +206,7 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,currentLanguage,cu
                  getFile(e);
               }}
             /><BiImport/>Import Code</label>
-                <button><BiExport/>Export Code</button>
+                <button onClick={()=>exportUserInfo(currentCode)}><BiExport/>Export Code</button>
             </Lowerbuttons>
             <Runbutton onClick={() => {
             runCode();

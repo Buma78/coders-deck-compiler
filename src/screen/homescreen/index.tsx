@@ -10,7 +10,7 @@ const HomeScreenContainer = styled.div`
      width :100%;
      height: 100vh;
 `;
-const Homescreen= () =>{
+const Homescreen = () =>{
   const ModalFeatures = useContext(ModalContext);
   const isOpen = ModalFeatures?.isOpen;
   return (

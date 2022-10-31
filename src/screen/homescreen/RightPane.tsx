@@ -2,6 +2,7 @@ import {useContext} from 'react'
 import styled from 'styled-components';
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
+//import { BsSunFill,BsSun } from "react-icons/bs";
 import { ModalContext } from '../../Context/ModalContext';
 import { PlaygroundContext } from '../../Context/PlaygroundContext';
 import {useNavigate} from 'react-router-dom';
@@ -15,7 +16,6 @@ interface HeadingProps {
   }
 const StyledRightpane = styled.div`
     padding:2rem;
-    background:#fafafa;
     position:absolute;
     right:0;
     top:0;
@@ -114,7 +114,7 @@ const FolderButton=styled.div`
 
 `
 const RightPane = () => {
-
+ 
   const navigate = useNavigate();
   const makeavailableGlobally = useContext(ModalContext)!;
   const {openModal} = makeavailableGlobally;
@@ -122,13 +122,20 @@ const RightPane = () => {
   const PlaygroundFeatures = useContext(PlaygroundContext)!;
   const Folders = PlaygroundFeatures.folders;
   const {deleteCard,deleteFolder} = PlaygroundFeatures;
+
+  // const icon = true ? <BsSunFill/>:<BsSun/>;
+  // const changeTheme =()=>{
+
+  // }
   return (
     <div>
+        
         <StyledRightpane>
         <Header variant='main'>
         <Heading size='large'>
              my <span>Playgrounds</span>
         </Heading>
+        {/* <Addbutton onClick={()=>changeTheme()}>{icon}</Addbutton> */}
         <Addbutton onClick={()=>{
           openModal({
             value:true,
