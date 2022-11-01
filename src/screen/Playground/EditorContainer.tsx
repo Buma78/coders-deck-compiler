@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
 import CodeEditor from './CodeEditor'
 import styled from 'styled-components'
-import { BiEditAlt, BiExport, BiFullscreen, BiImport } from 'react-icons/bi'
+import { BiEditAlt, BiExport, BiImport,BiFullscreen } from 'react-icons/bi'
 import Select from 'react-select';
 import { ModalContext } from '../../Context/ModalContext';
 import { languageMap } from '../../Context/PlaygroundContext';
+import {useFullScreenHandle } from "react-full-screen";
+
 const StyledEditorContainer = styled.div`
 display: flex;
 flex-direction : column;
@@ -13,12 +15,10 @@ const UpperToolBar = styled.div`
     display : flex;
     align-items: center;
     justify-content:space-between;
-    background :white;
     height : 4rem;
     padding :0.2rem;
 `
 const LowerToolBar = styled.div`
-     background : white;
      height : 4rem;
      display : flex;
      justify-content : space-between;
@@ -174,6 +174,8 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,currentLanguage,cu
         link.href = url;
         link.click();
       }
+      
+      const ShowFullScreen = useFullScreenHandle();
     return (
     <StyledEditorContainer>
         <UpperToolBar>
@@ -198,10 +200,10 @@ const EditorContainer: React.FC<EditorContainerProps>=({title,currentLanguage,cu
                 <Select value={themeSelected}  options={themeOptions} onChange={handleSelectedTheme}/>
             </Selectbars>
         </UpperToolBar>
-        <CodeEditor CurrentLanguage={languageSelected.value} CurrentTheme={themeSelected.value} CurrentCode={currentCode} setCurrentCode={setCurrentCode}/>
+        <CodeEditor CurrentLanguage={languageSelected.value} CurrentTheme={themeSelected.value} CurrentCode={currentCode} setCurrentCode={setCurrentCode} ShowFullScreen={ShowFullScreen}/>
         <LowerToolBar>
             <Lowerbuttons>
-                <button><BiFullscreen/>Full Screen</button>
+              <button onClick={ShowFullScreen.enter}><BiFullscreen/>FullScreen</button>
                 <label> <input type='file'accept='.txt' style={{ display: "none" }} onChange={(e) => {
                  getFile(e);
               }}

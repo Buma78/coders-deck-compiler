@@ -5,9 +5,14 @@ import PlaygroundProvider from './Context/PlaygroundContext';
 import Playground from './screen/Playground';
 import {BrowserRouter,Routes,Route} from"react-router-dom";
 import Page404 from './screen/Page404';
+import { useContext } from 'react';
+import { ThemeStyledContext } from './Context/ThemeContext';
+import { ThemeProvider } from 'styled-components';
 
 function App() {
+  const {theme} = useContext(ThemeStyledContext)!;
   return (
+    <ThemeProvider theme={theme}>
     <PlaygroundProvider>
    <ModalProvider>
     <GlobalStyles/>
@@ -22,6 +27,7 @@ function App() {
     </BrowserRouter>
    </ModalProvider>
    </PlaygroundProvider>
+   </ThemeProvider>
   );
 }
 

@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 //import {BiImport} from "react-icons/bi";
 const Console = styled.div`
-      background : white;
       display : flex;
       flex-direction: column; 
       position : relative ;
 `;
 const Header = styled.div`
-   height: 3.5rem;
+   height: 4rem;
    background : #ededed;
    box-shadow : 0px 4px 4px rgba(0,0,0,0.16);
    z-index: 2;
@@ -33,6 +32,7 @@ const Header = styled.div`
 }
 `
 const TextArea = styled.textarea`
+    background:#ededed;
     font-size: 1rem;
     flex-grow : 1;
     resize : none;

@@ -16,23 +16,38 @@ import{java} from "@codemirror/lang-java";
 import {indentUnit} from "@codemirror/language";
 import {EditorState} from "@codemirror/state";
 import styled from 'styled-components';
+import { FullScreen,} from "react-full-screen";
 
 
 const CodeEditorContainer = styled.div`
-   height: calc(100vh - 11rem);
+   height: calc(100vh - 10.65rem);
 
    &>div{
     height:100%;
    }
 `
+interface FullScreenHandle {
+  active: boolean;
+  // Specifies if attached element is currently full screen.
+
+  enter: () => Promise<void>;
+  // Requests this element to go full screen.
+
+  exit: () => Promise<void>;
+  // Requests this element to exit full screen.
+
+  node: React.MutableRefObject<HTMLDivElement | null>;
+  // The attached DOM node
+}
 interface CodeEditorProps {
   CurrentLanguage : string,
   CurrentTheme : string,
   CurrentCode: string,
   setCurrentCode:(newCode:string)=> void;
+  ShowFullScreen:FullScreenHandle;
 }
 
-const CodeEditor : React.FC<CodeEditorProps>=({CurrentLanguage,CurrentTheme,CurrentCode,setCurrentCode})=>{
+const CodeEditor : React.FC<CodeEditorProps>=({CurrentLanguage,CurrentTheme,CurrentCode,setCurrentCode,ShowFullScreen})=>{
    
     const[theme,setTheme] = useState<any>(githubDark);
     const[lang,setLang] = useState<any>(java);
@@ -55,21 +70,57 @@ const CodeEditor : React.FC<CodeEditorProps>=({CurrentLanguage,CurrentTheme,Curr
       if(CurrentTheme=== "duotoneLight")setTheme(duotoneLight);
       if(CurrentTheme=== "duotoneDark")setTheme(duotoneDark);
     },[CurrentTheme]);
+   
+  let Screenheight ="100%"
+  if(ShowFullScreen.active){
+    Screenheight = '100vh';
+  }else{
+    Screenheight = '100%'
+  }
   return (
+    <FullScreen handle={ShowFullScreen}>
     <CodeEditorContainer>
+     
         <CodeMirror
      theme={theme}
      value={CurrentCode }
      onChange={(value:string ,e:any)=>{
       setCurrentCode(value);
      }}
-     height = '100%'
+     height = {Screenheight}
      extensions={[
         lang,
         indentUnit.of(" "),
         EditorState.tabSize.of(8),
         EditorState.changeFilter.of(()=>true),
-    ]}/></CodeEditorContainer>
+    ]}
+    basicSetup={{
+      lineNumbers: true,
+      highlightActiveLineGutter: true,
+      highlightSpecialChars: true,
+      foldGutter: true,
+      drawSelection: true,
+      dropCursor: true,
+      allowMultipleSelections: true,
+      indentOnInput: true,
+      syntaxHighlighting: true,
+      bracketMatching: true,
+      closeBrackets: true,
+      autocompletion: true,
+      rectangularSelection: true,
+      crosshairCursor: true,
+      highlightActiveLine: true,
+      highlightSelectionMatches: true,
+      closeBracketsKeymap: true,
+      defaultKeymap: true,
+      searchKeymap: true,
+      historyKeymap: true,
+      foldKeymap: true,
+      completionKeymap: true,
+      lintKeymap: true,
+    }}/>
+    </CodeEditorContainer>
+    </FullScreen>
   )
 }
 

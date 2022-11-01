@@ -2,10 +2,11 @@ import {useContext} from 'react'
 import styled from 'styled-components';
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
-//import { BsSunFill,BsSun } from "react-icons/bs";
+import { BsSunFill,BsSun } from "react-icons/bs";
 import { ModalContext } from '../../Context/ModalContext';
 import { PlaygroundContext } from '../../Context/PlaygroundContext';
 import {useNavigate} from 'react-router-dom';
+import { ThemeStyledContext } from '../../Context/ThemeContext';
 
 interface HeaderProps {
     readonly variant: string;
@@ -15,11 +16,14 @@ interface HeadingProps {
     readonly size: string;
   }
 const StyledRightpane = styled.div`
+    background:${({theme})=>theme.background};
+    color:${({theme})=>theme.color};
     padding:2rem;
     position:absolute;
     right:0;
     top:0;
     width:60%;
+    min-height:100vh;
 `
 const Header=styled.div<HeaderProps>`
        display: flex;
@@ -46,6 +50,14 @@ const Heading=styled.h3<HeadingProps>`
         font-weight:700;
     }
 `
+const Darkbutton=styled.button`
+color: ${({theme})=>theme.color};
+background:transparent;
+outline:0;
+border:0;
+font-size:1.1rem;
+cursor:pointer;
+`
 const Addbutton = styled.button`
   display:flex;
   gap:0.5rem;
@@ -55,6 +67,7 @@ const Addbutton = styled.button`
   border:0;
   font-size:1.1rem;
   cursor:pointer;
+  color:${({theme})=>theme.color};
   
   span{
     font-size:1.75rem;
@@ -81,7 +94,7 @@ const Playgroundcard = styled.div`
   align-items: center;
   padding: 0.6rem;
   gap: 1rem;
-  box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.90);
   cursor : pointer;
   transition:all 0.1s ease;
   &:hover{
@@ -114,7 +127,7 @@ const FolderButton=styled.div`
 
 `
 const RightPane = () => {
- 
+  const{theme,setTheme}= useContext(ThemeStyledContext)!;
   const navigate = useNavigate();
   const makeavailableGlobally = useContext(ModalContext)!;
   const {openModal} = makeavailableGlobally;
@@ -123,10 +136,10 @@ const RightPane = () => {
   const Folders = PlaygroundFeatures.folders;
   const {deleteCard,deleteFolder} = PlaygroundFeatures;
 
-  // const icon = true ? <BsSunFill/>:<BsSun/>;
-  // const changeTheme =()=>{
-
-  // }
+  const icon = theme.background==="white" ? <BsSunFill size={25}/>:<BsSun size={25}/>;
+  const changeTheme =()=>{
+      theme.background==="white"? setTheme({background:"#232b2b",color:"white"}):setTheme({background:"white",color:"black"});
+  }
   return (
     <div>
         
@@ -135,7 +148,7 @@ const RightPane = () => {
         <Heading size='large'>
              my <span>Playgrounds</span>
         </Heading>
-        {/* <Addbutton onClick={()=>changeTheme()}>{icon}</Addbutton> */}
+        <Darkbutton onClick={()=>changeTheme()}>{icon}</Darkbutton>
         <Addbutton onClick={()=>{
           openModal({
             value:true,
