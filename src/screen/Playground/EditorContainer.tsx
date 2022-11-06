@@ -12,6 +12,7 @@ display: flex;
 flex-direction : column;
 `
 const UpperToolBar = styled.div`
+    background:${({theme})=>theme.background};
     display : flex;
     align-items: center;
     justify-content:space-between;
@@ -19,6 +20,8 @@ const UpperToolBar = styled.div`
     padding :0.2rem;
 `
 const LowerToolBar = styled.div`
+     background:${({theme})=>theme.background};
+     color:${({theme})=>theme.color};
      height : 4rem;
      display : flex;
      justify-content : space-between;
@@ -27,6 +30,7 @@ const LowerToolBar = styled.div`
 
         button,label{
         background : transparent;
+        color:${({theme})=>theme.color};
         margin-right: 0.3rem;
         font-size: 1.3rem;
         border :0;
@@ -36,7 +40,9 @@ const LowerToolBar = styled.div`
         display : flex ;
         align-items : center;
         gap : 0.75rem;
-       
+        &:hover{
+          opacity:0.75;
+        }
        svg{
           font-size:1.3rem;
         }
@@ -58,11 +64,12 @@ const Savebutton = styled.button`
 `
 const Runbutton = styled.button`
      padding : 0.8rem 2rem;
-     background : #0097d7 !important;
+     background : 	#FFA500 !important;
      border-radius : 2rem;
      font-weight : 700;
 `
 const UppertoolTitle = styled.div`
+    color:${({theme})=>theme.color};
     display : flex ;
     align-items : center;
     gap : 0.75rem;
@@ -72,12 +79,14 @@ const UppertoolTitle = styled.div`
     }
     button{
         background : transparent;
+        color:${({theme})=>theme.color};
         font-size : 1.2rem;
         border : 0;
         outline : 0;
     }
 `
 const  Selectbars = styled.div`
+      background : transparent;
       display : flex;
       align-items : center;
       gap : 1rem;
